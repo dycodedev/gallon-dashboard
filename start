@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export APPCONFIG=dev.local
+
+nodemon --ext ".js|.css|.html" app.js
