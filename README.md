@@ -17,7 +17,10 @@ Sample for REST API implementation
     * [ ] User
     * [ ] Venue
     * [ ] Item
+    * [ ] Others
+* [ ] Tests
 
 # Documentation
 
 * [OAuth 2.0 implementation](docs/oauth2.md)
+* [REPL fully loaded](docs/repl.md)
