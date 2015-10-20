@@ -13,7 +13,7 @@ Sample for REST API implementation
     * [ ] Authorization Code Grant
     * [ ] Implicit Grant
     * [✓] Resource Owner Password Credentials Grant
-* [ ] User signup flow 
+* [ ] User signup flow (signup, signup with provider, welcome email)
 * [ ] Resource API
     * [ ] User
     * [ ] Venue
