@@ -21,8 +21,6 @@ server.exchange(oauth2orize.exchange.password(function(client, username, passwor
             if (err) return done(err);
             if (accessToken) {
 
-                console.log('1', accessToken);
-
                 OAuthRefreshToken.findOne({user: user._id, client: client._id}, function(err, refreshToken) {
                     if (err) return done(err);
 

@@ -53,7 +53,7 @@ var UserSchema = new Schema({
 
     provider: {
         type: String,
-        default: 'foodgasm',
+        default: 'happygasm',
     },
 
     providerId: {
@@ -73,7 +73,7 @@ var UserSchema = new Schema({
         enum: ['init', 'verified', 'removed', 'banned'],
     },
 
-    providerData: {
+    connectedProvider: {
         type: Schema.Types.Mixed,
         default: {},
     },

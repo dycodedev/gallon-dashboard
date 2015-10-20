@@ -9,17 +9,22 @@ module.exports = {
     mongodb: {
         host: 'localhost',
         port: '27017',
-        dbname: 'foodgasm-api',
+        dbname: 'happygasm-api',
         username: '',
         password: '',
-        connectionUri: 'mongodb://localhost:27017/foodgasm-api',
+        connectionUri: 'mongodb://localhost:27017/happygasm-api',
     },
 
     collection: {
-        prefix: 'fg',
+        prefix: 'hg',
         name: function(collectionName) {
             return this.prefix + '_' + collectionName;
         },
+    },
+
+    token: {
+        length: 128,
+        validMonths: 6,
     },
 
     appDir: path.join(__dirname, '..'),

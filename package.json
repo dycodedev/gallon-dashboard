@@ -49,6 +49,7 @@
     "mongoose": "~4.1.10",
     "mongoose-unique-validator": "^0.5.1",
     "mongoose-validator": "^1.2.4",
+    "monguurl": "^0.1.0",
     "morgan": "~1.6.1",
     "nodemailer": "~1.7.0",
     "nodemailer-html-to-text": "~1.0.2",

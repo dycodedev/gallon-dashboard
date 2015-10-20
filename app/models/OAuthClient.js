@@ -52,8 +52,9 @@ var OAuthClientSchema = new Schema({
     // this is for Authorization Code Flow, aka Server-Side Flow
     redirectUri: {
         type: String,
-        //validate: urlValidator,
         default: '',
+
+        //validate: urlValidator,
     },
 
     website: {
