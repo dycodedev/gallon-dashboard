@@ -7,21 +7,21 @@ var crypto = require('crypto');
 var server = oauth2orize.createServer();
 
 //Resource owner password
-server.exchange(oauth2orize.exchange.password(function(client, username, password, scope, done) {
+server.exchange(oauth2orize.exchange.password(function (client, username, password, scope, done) {
 
     console.log(client, username, password, scope);
 
-    User.validate(username, password, function(err, user) {
+    User.validate(username, password, function (err, user) {
         if (err) return done(err);
         if (!user) return done(null, false);
 
         // If user already created access token, we create new one and update existing
         // We stored hashed token so we don't know what we've sent
-        OAuthAccessToken.findOne({user: user._id, client: client._id}, function(err, accessToken) {
+        OAuthAccessToken.findOne({ user: user._id, client: client._id }, function (err, accessToken) {
             if (err) return done(err);
             if (accessToken) {
 
-                OAuthRefreshToken.findOne({user: user._id, client: client._id}, function(err, refreshToken) {
+                OAuthRefreshToken.findOne({ user: user._id, client: client._id }, function (err, refreshToken) {
                     if (err) return done(err);
 
                     // we assume refreshToken exists. we could create another if
@@ -31,14 +31,17 @@ server.exchange(oauth2orize.exchange.password(function(client, username, passwor
 
                     refreshToken.token = Utils.uid(128);
 
-                    accessToken.save(function(err) {
+                    accessToken.save(function (err) {
                         console.error(err);
                         if (err) return done(err);
 
-                        refreshToken.save(function(err) {
+                        refreshToken.save(function (err) {
                             if (err) return done(err);
+                            var expires = {
+                                expires_in: accessToken.expirationDate,
+                            };
 
-                            done(null, accessToken.token, refreshToken.token, {expires_in: accessToken.expirationDate});
+                            done(null, accessToken.token, refreshToken.token, expires);
                         });
                     });
 
@@ -59,14 +62,18 @@ server.exchange(oauth2orize.exchange.password(function(client, username, passwor
                     user: user._id,
                 });
 
-                accessToken.save(function(err) {
+                accessToken.save(function (err) {
                     console.error(err);
                     if (err) return done(err);
 
-                    refreshToken.save(function(err) {
+                    refreshToken.save(function (err) {
                         if (err) return done(err);
 
-                        done(null, accessToken.token, refreshToken.token, {expires_in: accessToken.expirationDate});
+                        var expires = {
+                            expires_in: accessToken.expirationDate,
+                        };
+
+                        done(null, accessToken.token, refreshToken.token, expires);
                     });
                 });
 
@@ -78,16 +85,16 @@ server.exchange(oauth2orize.exchange.password(function(client, username, passwor
 }));
 
 //Refresh Token
-server.exchange(oauth2orize.exchange.refreshToken(function(client, refreshToken, scope, done) {
+server.exchange(oauth2orize.exchange.refreshToken(function (client, refreshToken, scope, done) {
 
     var refreshTokenHash = crypto.createHash('sha1').update(refreshToken).digest('hex');
 
-    OAuthRefreshToken.findOne({tokenHash: refreshTokenHash}, function(err, token) {
+    OAuthRefreshToken.findOne({ tokenHash: refreshTokenHash }, function (err, token) {
         if (err) return done(err);
         if (!token) return done(null, false);
         if (client._id !== token.client) return done(null, false);
 
-        OAuthAccessToken.findOne({user: token.user}, function(err, accessToken) {
+        OAuthAccessToken.findOne({ user: token.user }, function (err, accessToken) {
             if (err) return done(err);
             if (!accessToken) return done(null, false);
             if (client._id !== accessToken.client) return done(null, false);
@@ -96,10 +103,14 @@ server.exchange(oauth2orize.exchange.refreshToken(function(client, refreshToken,
             accessToken.updateExpirationDate();
             accessToken.scope = scope ? scope : '';
 
-            accessToken.save(function(err) {
+            accessToken.save(function (err) {
                 if (err) return done(err);
 
-                done(null, accessToken.token, refreshToken, {expires_in: accessToken.expirationDate});
+                var expires = {
+                    expires_in: accessToken.expirationDate,
+                };
+
+                done(null, accessToken.token, refreshToken, expires);
             });
 
         });

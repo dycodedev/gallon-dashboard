@@ -15,10 +15,10 @@ global.async = require('async');
 
 global.Utils = require('../../app/services/Utils');
 
-buildOrm(function(err) {
+buildOrm(function (err) {
 
     var username = process.argv[3];
-    User.findOne({ $or: [{email: username}, {username: username}] }, function(err, user) {
+    User.findOne({ $or: [{ email: username }, { username: username }] }, function (err, user) {
         if (err) return console.error(err);
         if (!user) return console.error('User with username: ' + username + ' is not found');
 
@@ -28,7 +28,7 @@ buildOrm(function(err) {
             trusted: true,
         });
 
-        oauthClient.save(function(err) {
+        oauthClient.save(function (err) {
             if (err) return console.log(err);
 
             console.log('An app saved, a platform extend', oauthClient);

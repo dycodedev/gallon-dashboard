@@ -6,11 +6,11 @@ var BasicStrategy = require('passport-http').BasicStrategy;
  * This strategy is used to authenticate registered OAuth clients.
  * The authentication data must be delivered using the basic authentication scheme.
  */
-passport.use('clientBasic', new BasicStrategy(function(clientId, clientSecret, done) {
+passport.use('clientBasic', new BasicStrategy(function (clientId, clientSecret, done) {
 
     console.log(clientId, clientSecret);
 
-    OAuthClient.findOne({_id: clientId}, function(err, clientApp) {
+    OAuthClient.findOne({ _id: clientId }, function (err, clientApp) {
 
         console.log(clientApp);
 

@@ -34,18 +34,18 @@ var OAuthAccessTokenSchema = new Schema({
         type: String,
     },
 
-}, {collection: 'oauth_accesstoken'});
+}, { collection: 'oauth_accesstoken' });
 
 OAuthAccessTokenSchema.virtual('token')
-    .get(function() {
+    .get(function () {
         return this._token;
     })
-    .set(function(value) {
+    .set(function (value) {
         this._token = value;
         this.tokenHash = crypto.createHash('sha1').update(this._token).digest('hex');
     });
 
-OAuthAccessTokenSchema.methods.updateExpirationDate = function() {
+OAuthAccessTokenSchema.methods.updateExpirationDate = function () {
     this.expirationDate = moment().add(6, 'months').toDate();
     return;
 };

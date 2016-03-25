@@ -88,30 +88,30 @@ var UserSchema = new Schema({
         default: '',
     },
 
-}, {collection: config.collection.name('users')});
+}, { collection: config.collection.name('users') });
 
 UserSchema.plugin(timestamp.useTimestamps);
 UserSchema.plugin(uniqueValidator);
 
 // Password validation
 UserSchema.virtual('password')
-    .get(function() {
+    .get(function () {
         return this._password;
     })
-    .set(function(value) {
+    .set(function (value) {
         this._password = value;
         this.passwordHash = bcrypt.hashSync(this._password, 10);
     });
 
 UserSchema.virtual('passwordConfirmation')
-    .get(function() {
+    .get(function () {
         return this._passwordConfirmation;
     })
-    .set(function(value) {
+    .set(function (value) {
         this._passwordConfirmation = value;
     });
 
-UserSchema.path('passwordHash').validate(function(v) {
+UserSchema.path('passwordHash').validate(function (v) {
     if (this._password || this._passwordConfirmation) {
         if (!validator.isLength(this._password, 8)) {
             this.invalidate('password',
@@ -128,28 +128,28 @@ UserSchema.path('passwordHash').validate(function(v) {
     }
 }, null);
 
-UserSchema.methods.passwordMatches = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.passwordHash, function(err, isMatch) {
+UserSchema.methods.passwordMatches = function (candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.passwordHash, function (err, isMatch) {
         if (err) return cb(err);
         return cb(null, isMatch);
     });
 };
 
-UserSchema.method('toJSON', function() {
+UserSchema.method('toJSON', function () {
     const user = this.toObject();
     delete user.passwordHash;
     return user;
 });
 
-UserSchema.statics.validate = function(username, password, cb) {
-    this.findOne({ $or: [{email: username}, {username: username}] }, function(err, user) {
+UserSchema.statics.validate = function (username, password, cb) {
+    this.findOne({ $or: [{ email: username }, { username: username }] }, function (err, user) {
         if (err) {
             return cb(err);
         } else {
             if (!user) {
                 return cb(new Error('User with username ' + username + ' is not found'));
             } else {
-                bcrypt.compare(password, user.passwordHash, function(err, match) {
+                bcrypt.compare(password, user.passwordHash, function (err, match) {
                     if (err) {
                         return cb(err);
                     } else {

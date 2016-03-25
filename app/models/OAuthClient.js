@@ -8,7 +8,7 @@ var timestamp = require('./plugins/timestamp');
 var urlValidator = [
   validate({
       validator: 'isURL',
-      arguments: {require_protocol: true},
+      arguments: { require_protocol: true },
       message: 'URL is not valid',
   }),
 ];
@@ -62,13 +62,13 @@ var OAuthClientSchema = new Schema({
         default: '',
     },
 
-    user: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'User',
-    },
+    // user: {
+    //     type: Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: 'User',
+    // },
 
-}, {collection: 'oauth_clients'});
+}, { collection: 'oauth_clients' });
 
 OAuthClientSchema.plugin(timestamp.useTimestamps);
 

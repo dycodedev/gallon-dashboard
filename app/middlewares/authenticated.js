@@ -1,8 +1,7 @@
 'use strict';
 
 exports.isAuthenticated = role => {
-
-    return (req, res, next) => {
+    const middleware = (req, res, next) => {
 
         if (!req.isAuthenticated()) {
             req.session.returnTo = req.url;
@@ -19,4 +18,6 @@ exports.isAuthenticated = role => {
 
         next();
     };
+
+    return middleware;
 };

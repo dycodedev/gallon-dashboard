@@ -5,7 +5,7 @@ exports.useTimestamps = (schema, options) => {
         tu: Date,
     });
 
-    schema.pre('save', function(next) {
+    schema.pre('save', function (next) {
         if (!this.ts) {
             this.ts = this.tu = new Date;
         } else {

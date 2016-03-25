@@ -23,13 +23,13 @@ var OAuthRefreshTokenSchema = new Schema({
         ref: 'User',
     },
 
-}, {collection: 'oauth_refreshtoken'});
+}, { collection: 'oauth_refreshtoken' });
 
 OAuthRefreshTokenSchema.virtual('token')
-    .get(function() {
+    .get(function () {
         return this._token;
     })
-    .set(function(value) {
+    .set(function (value) {
         this._token = value;
         this.tokenHash = crypto.createHash('sha1').update(this._token).digest('hex');
     });

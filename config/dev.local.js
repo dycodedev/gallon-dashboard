@@ -9,15 +9,15 @@ module.exports = {
     mongodb: {
         host: 'localhost',
         port: '27017',
-        dbname: 'happygasm-api',
+        dbname: 'gallondb',
         username: '',
         password: '',
-        connectionUri: 'mongodb://localhost:27017/happygasm-api',
+        connectionUri: 'mongodb://localhost:27017/gallondb',
     },
 
     collection: {
         prefix: 'hg',
-        name: function(collectionName) {
+        name: function (collectionName) {
             return this.prefix + '_' + collectionName;
         },
     },

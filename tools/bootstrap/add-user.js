@@ -17,7 +17,7 @@ global.async = require('async');
 
 global.Utils = require('../../app/services/Utils');
 
-buildOrm(function(err) {
+buildOrm(function (err) {
 
     var user = new User({
         username: process.argv[2],
@@ -28,7 +28,7 @@ buildOrm(function(err) {
         passwordConfirmation: process.argv[5],
     });
 
-    user.save(function(err) {
+    user.save(function (err) {
         if (err) {
             console.log(err);
         };
