@@ -29,6 +29,22 @@
                             });
                         }
 
+                        $('body').on('click', '#glx-cust-save-freeboard', function onClick(event) {
+                            var serialized = freeboard.serialize();
+
+                            $.ajax({
+                                url: '/dashboard',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: { definition: JSON.stringify(serialized) },
+                                success: function (response) {
+                                    window.location.reload();
+                                },
+                                error: function(xhr, text, err) {
+                                    console.error(text, err);
+                                },
+                            });
+                        });
                     });
                 });
     </script>
@@ -50,7 +66,7 @@
                     <ul class="board-toolbar vertical">
                         <li data-bind="click: loadDashboardFromLocalFile"><i id="full-screen-icon" class="icon-folder-open icon-white"></i><label id="full-screen">Load Freeboard</label></li>
                         <li><i class="icon-download-alt icon-white"></i>
-                            <label data-bind="click: saveDashboardClicked">Save Freeboard</label>
+                            <label id="glx-cust-save-freeboard">Save Freeboard</label>
                             <label style="display: none;" data-bind="click: saveDashboard" data-pretty="true">[Pretty]</label>
                             <label style="display: none;" data-bind="click: saveDashboard" data-pretty="false">[Minified]</label>
                         </li>

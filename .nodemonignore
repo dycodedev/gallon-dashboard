@@ -1,6 +1,7 @@
 .idea
 .tmp
 .git
+assets/*.json
 assets/public
 assets/js
 memstats
