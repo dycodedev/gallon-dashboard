@@ -6,12 +6,14 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    User.findOneById(id).exec(function (err, user) {
+    User.findById(id).exec(function (err, user) {
         if (user) {
-            delete user.passwordHash;
-            done(null, user);
+            const transformed = user.toObject();
+            delete transformed.passwordHash;
+
+            return done(null, transformed);
         } else {
-            done(new Error('Invalid login data'));
+            return done(new Error('Invalid login data'));
         }
     });
 });
