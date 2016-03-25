@@ -26,16 +26,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Node base app</a>
+          <a class="navbar-brand" href="/"></a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
-            <!--
-            {% for menuItem in menu %}
-              <li{% if menuItem.active %} class="active"{% endif %}><a href="{{menuItem.url}}">{{menuItem.displayName}}</a></li>
-            {% endfor %}
-            -->
+            <li><a href="/">Home</a></li>
           </ul>
         </div>
       </div>
@@ -47,9 +42,9 @@
 
       <hr>
 
-      <div class="footer">
+{#       <div class="footer">
         <p>Node base app v.{{version}} &copy; Dycode 2015</p>
-      </div>
+      </div> #}
 
     </div><!-- /.container -->
 

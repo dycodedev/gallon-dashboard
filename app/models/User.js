@@ -82,9 +82,9 @@ UserSchema.virtual('passwordConfirmation')
 
 UserSchema.path('passwordHash').validate(function (v) {
     if (this._password || this._passwordConfirmation) {
-        if (!validator.isLength(this._password, 8)) {
+        if (!validator.isLength(this._password, 4)) {
             this.invalidate('password',
-              'Password minimum length is 8 character');
+              'Password minimum length is 4 character');
         }
 
         if (this._password !== this._passwordConfirmation) {

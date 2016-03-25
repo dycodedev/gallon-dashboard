@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <base href="/">
 	<meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -26,6 +27,12 @@
                                 freeboard.loadDashboard(data, function() {
                                     freeboard.setEditing(false);
                                 });
+                            });
+                        } else {
+                            var boardjson = {{ board|json|safe }};
+
+                            freeboard.loadDashboard(boardjson, function() {
+                                freeboard.setEditing(false);
                             });
                         }
 
@@ -57,6 +64,7 @@
         </ul>
     </div>
 </div>
+
 <header id="main-header" data-bind="if:allow_edit">
     <div id="admin-bar">
         <div id="admin-menu">
@@ -117,10 +125,11 @@
 			<li class="column-tool add" data-bind="click: addGridColumnRight"><span class="column-icon left"></span><i class="icon-arrow-right icon-white"></i></li>
 		</ul>
 	</div>
+    {% if isAuth %}
     <div id="toggle-header" data-bind="click: toggleEditing">
         <i id="toggle-header-icon" class="icon-wrench icon-white"></i></div>
+    {% endif %}
 </header>
-
 <div style="display:hidden">
     <ul data-bind="template: { name: 'pane-template', foreach: panes}">
     </ul>

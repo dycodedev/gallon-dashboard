@@ -8,7 +8,7 @@ var base64image = require('../middlewares/base64image');
 
 // Index
 router.get('/', auth.isAuthenticated(), IndexController.index);
-router.get('/dashboard', IndexController.dashboard);
+router.get('/dashboard/:id', IndexController.dashboard);
 router.post('/dashboard', IndexController.saveBoard);
 
 router.get('/signin', AuthController.signIn);
