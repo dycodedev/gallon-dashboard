@@ -9,7 +9,7 @@ if (process.argv.length !== 4) {
 
 var buildOrm = require('../../app/helpers/buildorm')();
 
-global.config = require('../../config/' + (process.env.APPCONFIG || 'dev.local'));
+global.config = require('../../config/' + (process.env.APPENV || 'dev.local'));
 global._ = require('lodash');
 global.async = require('async');
 

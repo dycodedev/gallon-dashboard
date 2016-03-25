@@ -26,7 +26,7 @@ const mongoose = require('mongoose');
 // global
 global._ = require('lodash');
 global.async = require('async');
-global.config = require('./config/' + (process.env.APPCONFIG || ''));
+global.config = require('./config/' + (process.env.APPENV || ''));
 global.info = require('./package.json');
 global.version = info.version;
 global.ObjectID = require('mongodb').ObjectID;

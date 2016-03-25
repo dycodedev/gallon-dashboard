@@ -4,7 +4,7 @@
 
 global._ = require('lodash');
 global.async = require('async');
-global.config = require('../config/' + (process.env.APPCONFIG || 'dev.local'));
+global.config = require('../config/' + (process.env.APPENV || 'dev.local'));
 global.ObjectID = require('mongodb').ObjectID;
 global.Utils = require('../app/services/Utils');
 

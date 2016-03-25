@@ -2,7 +2,7 @@
 const util = require('util');
 const winston = require('winston');
 
-const config = require('../config/' + process.env.APPCONFIG);
+const config = require('../config/' + process.env.APPENV);
 
 // you can use winston supported various transport here
 
