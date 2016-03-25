@@ -145,7 +145,6 @@
                 var $actionList = $parent.find('.glx-trigger-action-list');
                 var uniqueid = $parent.data('uniqueid');
                 var payload = {
-                    triggerNo: uniqueid,
                     threshold: parseInt($parent.find('.glx-display-waterlevel').text()),
                     triggerName: 'waterlevel',
                     action: {
@@ -171,7 +170,7 @@
                             data: payload,
                             dataType: 'json',
                             success: function(response) {
-                                renderAction($actionList, payload);
+                                renderAction($actionList, response.data);
                             },
                             error: function(xhr, errorMessage, err) {
 

@@ -4,6 +4,20 @@ const http = require('http');
 
 module.exports = () => {
 
+    function craft(data, message, status) {
+        const response = {
+            meta: {
+                status: http.STATUS_CODES[status],
+                code: status,
+            },
+        };
+
+        if (message) response.meta.message = message;
+        if (data != null) response.data = data;
+
+        return response;
+    }
+
     // Before routes
     app.use((req, res, next) => {
 
@@ -20,19 +34,7 @@ module.exports = () => {
         req.wantsJSON = req.xhr || req.get('Accept').indexOf('html') < 0;
 
         // craft response
-        res.craft = (data, message, status) => {
-            const response = {
-                meta: {
-                    status: http.STATUS_CODES[status],
-                    code: status,
-                },
-            };
-
-            if (message) response.meta.message = message;
-            if (data != null) response.data = data;
-
-            return response;
-        };
+        res.craft = craft;
 
         // send crafted response
         res.ok = (data, message, status) => {
@@ -79,7 +81,7 @@ module.exports = () => {
             return res.ok(err.data, err.message, status);
         } else {
             const model = res.baseModel;
-            Object.assign(model, res.craft(err.data, err.message, status));
+            Object.assign(model, craft(err.data, err.message, status));
             return res.render('errors/error', model);
         };
 

@@ -15,4 +15,7 @@ router.get('/signin', AuthController.signIn);
 router.post('/signin', AuthController.postSignIn);
 router.get('/signout', auth.isAuthenticated(), AuthController.signOut);
 
+router.post('/triggers', auth.isAuthenticated(), TriggerController.add);
+router.get('/triggers/:id', auth.isAuthenticated(), TriggerController.delete);
+
 module.exports = router;
