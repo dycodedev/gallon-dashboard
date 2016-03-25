@@ -12,7 +12,7 @@ var usernameValidator = [
     validate({
         validator: 'matches',
         arguments: /^[a-zA-Z0-9_]{3,32}$/,
-        message: 'Username should be between 3-32 alpha numeric characters, underscore ( _ ) is allowed',
+        message: 'Username should be between 3-32 alpha numeric characters, underscore is allowed',
     }),
 ];
 
@@ -51,44 +51,13 @@ var UserSchema = new Schema({
         required: true,
     },
 
-    provider: {
-        type: String,
-        default: 'happygasm',
-    },
-
-    providerId: {
-        type: String,
-        default: '',
-    },
-
     // possible values: ['admin', 'user', 'developer']
     role: {
         type: [String],
         default: ['user'],
     },
 
-    state: {
-        type: String,
-        default: 'init',
-        enum: ['init', 'verified', 'removed', 'banned'],
-    },
-
-    connectedProvider: {
-        type: Schema.Types.Mixed,
-        default: {},
-    },
-
-    profilePicture: {
-        type: String,
-        default: '',
-    },
-
-    coverPicture: {
-        type: String,
-        default: '',
-    },
-
-}, { collection: config.collection.name('users') });
+}, { collection: 'users' });
 
 UserSchema.plugin(timestamp.useTimestamps);
 UserSchema.plugin(uniqueValidator);
