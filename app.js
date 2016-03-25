@@ -73,6 +73,7 @@ initialize((err, result) => {
 
     app.use(express.static(__dirname + '/assets'));
     app.use(express.static(__dirname + '/bower_components'));
+    app.use(express.static(__dirname + '/freeboard'));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());

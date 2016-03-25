@@ -8,5 +8,8 @@ module.exports = {
         res.render('index', model);
     },
 
+    dashboard(req, res, next) {
+        return res.render('freeboard');
+    },
 };
 

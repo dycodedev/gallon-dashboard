@@ -8,5 +8,6 @@ var base64image = require('../middlewares/base64image');
 
 // Index
 router.get('/', IndexController.index);
+router.get('/dashboard', IndexController.dashboard);
 
 module.exports = router;

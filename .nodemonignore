@@ -2,4 +2,8 @@
 .tmp
 .git
 assets/public
+assets/js
 memstats
+node_modules
+bower_components
+freeboard
