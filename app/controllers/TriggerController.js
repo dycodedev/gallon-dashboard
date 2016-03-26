@@ -67,7 +67,50 @@ module.exports = {
                 return next(new Error('Failed to save trigger'));
             }
 
-            return res.ok(trig.toObject(), 'Trigger is saved');
+            const query = {
+                user: req.user.username,
+                device: body.device,
+            };
+
+            const update = {
+                threshold: body.threshold,
+            };
+
+            const opt = {
+                multi: true,
+            };
+
+            Triggers.update(query, update, opt, err => {
+                if (err) {
+                    return next(new Error('Failed to update threshold'));
+                }
+
+                return res.ok(trig.toObject(), 'Trigger is saved');
+            });
+        });
+    },
+
+    setAllThreshold(req, res, next) {
+        const query = {
+            user: req.user.username,
+            device: req.params.device,
+        };
+
+        if (!req.body.threshold) {
+            const error = new Error('Threshold value must be provided');
+            error.status = 400;
+
+            return next(error);
+        }
+
+        const opt = { multi: true };
+
+        return Triggers.update(query, { threshold: req.body.threshold }, opt, err => {
+            if (err) {
+                return next(new Error('Failed to update threshold'));
+            }
+
+            return res.ok(null, 'Threshold is updated');
         });
     },
 
