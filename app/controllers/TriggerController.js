@@ -91,21 +91,35 @@ module.exports = {
     },
 
     setAllThreshold(req, res, next) {
-        const query = {
-            user: req.user.username,
-            device: req.params.device,
-        };
+        console.log(req.body);
 
-        if (!req.body.threshold) {
-            const error = new Error('Threshold value must be provided');
+        if (_.isEmpty(req.body.deviceid)) {
+            const error = new Error('deviceid value must be provided');
             error.status = 400;
 
             return next(error);
         }
 
-        const opt = { multi: true };
+        if (!req.body.threshold && req.body.threshold !== 0) {
+            const error = new Error('threshold value must be provided');
+            error.status = 400;
 
-        return Triggers.update(query, { threshold: req.body.threshold }, opt, err => {
+            return next(error);
+        }
+
+        const query = {
+            user: req.user.username,
+            device: req.body.deviceid,
+        };
+
+        const opt = { multi: true };
+        const update = {
+            $set: {
+                threshold: parseInt(req.body.threshold),
+            },
+        };
+
+        return Triggers.update(query, update, opt, err => {
             if (err) {
                 return next(new Error('Failed to update threshold'));
             }

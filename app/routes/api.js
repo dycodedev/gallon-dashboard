@@ -15,6 +15,6 @@ router.get('/triggers', OAuthController.bearer, TriggerController.list);
 router.get('/triggers/:id', OAuthController.bearer, TriggerController.getOne);
 router.post('/triggers', OAuthController.bearer, TriggerController.add);
 router.delete('/triggers/:id', OAuthController.bearer, TriggerController.delete);
-router.put('/triggers/:device', OAuthController.bearer, TriggerController.setAllThreshold);
+router.put('/triggers', OAuthController.bearer, TriggerController.setAllThreshold);
 
 module.exports = router;
