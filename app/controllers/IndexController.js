@@ -27,6 +27,7 @@ module.exports = {
     dashboard(req, res, next) {
         const model = res.baseModel;
         model.isAuth = req.isAuthenticated();
+        model.deviceid = req.params.id;
 
         return Devices.findOne({ 'device.id': req.params.id }, (err, device) => {
             if (err) {

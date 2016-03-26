@@ -15,11 +15,13 @@
                 // *** Load more plugins here ***
         		"plugins/thirdparty/ibm.iotfoundation.plugin.js",
         		"plugins/thirdparty/paho.mqtt.plugin.js",
+                {% if isAuth %}
                 "plugins/thirdparty/gallon.waterlevel.trigger.js",
+                {% endif %}
                 function(){
                     $(function()
                     { //DOM Ready
-                        freeboard.initialize(true);
+                        freeboard.initialize({% if isAuth %} true {% else %} false {% endif %});
 
                         var hashpattern = window.location.hash.match(/(&|#)source=([^&]+)/);
                         if (hashpattern !== null) {
@@ -43,7 +45,7 @@
                                 url: '/dashboard',
                                 type: 'POST',
                                 dataType: 'json',
-                                data: { definition: JSON.stringify(serialized) },
+                                data: { definition: JSON.stringify(serialized), deviceid: '{{ deviceid }}' },
                                 success: function (response) {
                                     window.location.reload();
                                 },
