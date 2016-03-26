@@ -1,13 +1,11 @@
 
-# Base REST API
-
-Sample for REST API implementation
+# Gallon Dashboard & REST API
 
 * OAuth 2.0
-* API Documentation 
+* API Documentation
 * Bootstrapping data
 
-# Checklist
+## Checklist
 
 * [ ] OAuth 2.0 server
     * [ ] Authorization Code Grant
@@ -15,26 +13,29 @@ Sample for REST API implementation
     * [✓] Resource Owner Password Credentials Grant
 * [ ] User signup flow (signup, signup with provider, welcome email)
 * [ ] Resource API
-    * [ ] User
-    * [ ] Venue
-    * [ ] Item
-    * [ ] Others
+    * [✓] User
+    * [✓] Device
+    * [✓] Trigger's Actions
 * [ ] Tests
 * [ ] API Documentation
 
-# REST Developer Documentation
+## REST Developer Documentation
 
 * [OAuth 2.0 implementation](docs/oauth2.md)
 * [REPL fully loaded](docs/repl.md)
 
-# Schema references
+## Running Server
 
-* [User](docs/schema/user.md)
-* [Venue](docs/schema/venue.md)
-* [Category](docs/schema/category.md)
-* [Promo](docs/schema/promo.md)
+Using nodemon / node
+```sh
+APPENV=dev.local nodemon app.js
+```
 
-# API Documentation
+Using pm2
+```sh
+APPENV=production pm2 start app.js --name gallon-dashboard
+```
 
-Create API documentation using [Swagger](http://swagger.io/) or [Slate](https://github.com/tripit/slate) or others.
+## Note on APPENV variable
 
+`APPENV` environment variable is used to identify configuration file which is being used by the app. The possible values are `dev.local`, `local`, or `production`.
