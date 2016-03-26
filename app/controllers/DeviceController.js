@@ -13,4 +13,14 @@ module.exports = {
             return res.ok(devices, 'List devices');
         });
     },
+
+    delete(req, res, next) {
+        const id = req.params.id;
+
+        if (!ObjectID.isValid(id)) {
+            return res.redirect('/');
+        }
+
+        Devices.findOneAndRemove({ _id: new ObjectID(id) }, err => res.redirect('/'));
+    },
 };

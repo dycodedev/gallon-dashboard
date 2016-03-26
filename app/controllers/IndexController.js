@@ -44,10 +44,6 @@ module.exports = {
 
             const path = config.appDir + '/assets/' + req.params.id + '_dashboard.json';
             fs.readFile(path, (err, content) => {
-                if (err) {
-                    return res.redirect('/');
-                }
-
                 try {
                     model.board = JSON.parse(content);
                 } catch (ex) {

@@ -10,7 +10,9 @@ var base64image = require('../middlewares/base64image');
 router.get('/', auth.isAuthenticated(), IndexController.index);
 router.get('/dashboard/:id', IndexController.dashboard);
 router.get('/dashboard', auth.isAuthenticated(), (req, res) => res.redirect('/'));
-router.post('/dashboard', IndexController.saveBoard);
+router.post('/dashboard', auth.isAuthenticated(), IndexController.saveBoard);
+
+router.get('/devices/:id/delete', auth.isAuthenticated(), DeviceController.delete);
 
 router.get('/signin', AuthController.signIn);
 router.post('/signin', AuthController.postSignIn);

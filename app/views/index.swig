@@ -44,11 +44,29 @@
                     <td>{{ dev.device.name }}</td>
                     <td>{{ dev.attr.waterLevelPercent }}%</td>
                     <td>{% if dev.attr.ldr === 1 %} On {% else %} Off {% endif %}</td>
-                    <td><a href="/dashboard/{{ dev.device.id }}"> Open Dashboard</a></td>
+                    <td>
+                        <a href="/dashboard/{{ dev.device.id }}" class="text-button" style="margin-right: 10px"> Open Dashboard</a>
+                        <a href="/devices/{{ dev._id.toString() }}/delete" class="text-button glx-delete-button">Delete</a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.glx-delete-button').on('click', function(event) {
+                event.preventDefault();
+
+                var res = confirm('Are you sure want to delete this device?');
+
+                if (res) {
+                    window.location = $(this).attr('href');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
