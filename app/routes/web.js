@@ -22,5 +22,6 @@ router.post('/triggers', auth.isAuthenticated(), TriggerController.add);
 router.get('/triggers/:id', auth.isAuthenticated(), TriggerController.delete);
 
 router.get('/users', auth.isAuthenticated(['admin']), UserController.list);
+router.get('/users/add', auth.isAuthenticated(['admin']), UserController.add);
 
 module.exports = router;
