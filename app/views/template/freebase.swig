@@ -17,6 +17,13 @@
 <body>
     <header id="main-header" style="display: block; top: 0px">
         <ul class="board-toolbar horizontal" style="float: right; margin: 10px;">
+            {% if role.indexOf('admin') >= 0 %}
+            <li>
+                <a href="/users">
+                    <label> User Management </label>
+                </a>
+            </li>
+            {% endif %}
             <li>
                 <a href="/signout">
                     <label> Sign Out </label>

@@ -79,6 +79,14 @@ initialize((err, result) => {
     app.use(flash());
     app.use(i18n.init);
 
+    app.use((req, res, next) => {
+        if (req.isAuthenticated()) {
+            res.locals.role = req.user.role;
+        }
+
+        return next();
+    });
+
     // routes
     require('./app/routes')();
 
