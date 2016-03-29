@@ -19,11 +19,16 @@
             newMessageCallback;
 
         function onNewMessageHandler(message) {
-            var objdata = JSON.parse(message);
-            if (typeof objdata == "object") {
-                updateCallback(objdata);
+            console.log('Received message:', message);
+
+            if (typeof message === 'string') {
+                try {
+                    updateCallback(JSON.parse(message));
+                } catch (ex) {
+                    updateCallback(message);
+                }
             } else {
-                updateCallback(data);
+                updateCallback(message);
             }
         }
 
@@ -44,11 +49,22 @@
         function connectToServer(url, rooms) {
             // Establish connection with server
             self.url = url;
-            self.socket = io.connect(self.url,{'forceNew':true});
+            self.socket = io.connect(self.url,{'forceNew': false}); // previously true
 
             // Join the rooms
             self.socket.on('connect', function() {
                 console.info("Connecting to Node.js at: %s", self.url);
+
+                // Subscribe to the events
+                var newEventName = currentSettings.eventName;
+                self.newMessageCallback = onNewMessageHandler;
+                _.each(currentSettings.events, function(eventConfig) {
+                    var event = eventConfig.eventName;
+                    console.info("Subscribing to event: %s", event);
+                    self.socket.on(event, function(message) {
+                        self.newMessageCallback(message);
+                    });
+                });
             });
 
             // Join the rooms
@@ -83,16 +99,7 @@
             discardSocket();
             connectToServer(currentSettings.url, currentSettings.rooms);
 
-            // Subscribe to the events
-            var newEventName = currentSettings.eventName;
-            self.newMessageCallback = onNewMessageHandler;
-            _.each(currentSettings.events, function(eventConfig) {
-                var event = eventConfig.eventName;
-                console.info("Subscribing to event: %s", event);
-                self.socket.on(event, function(message) {
-                    self.newMessageCallback(message);
-                });
-            });
+            console.log('Initialization?');
         }
 
         this.updateNow = function() {
@@ -101,6 +108,8 @@
         };
 
         this.onDispose = function() {
+            console.log('on Dispose event fired');
+
             // Stop responding to messages
             self.newMessageCallback = function(message) {
                 return;
@@ -121,7 +130,7 @@
                 type_name : "node_js",
                 display_name : "Node.js (Socket.io)",
                 description : "A real-time stream datasource from node.js servers using socket.io.",
-                external_scripts : [ "https://cdn.socket.io/socket.io-1.0.6.js" ],
+                external_scripts : [ "https://cdn.socket.io/socket.io-1.4.5.js" ],
                 settings : [
                         {
                             name : "url",
