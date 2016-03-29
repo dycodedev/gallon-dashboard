@@ -93,9 +93,8 @@ initialize((err, result) => {
     // start listening
     const port = config.port;
     const server = app.listen(port, () => {
-        console.log('NodeApp server listening on port ' + port);
+        console.log('Gallon Dashboard server listening on port ' + port);
     });
-
 });
 
 // ups

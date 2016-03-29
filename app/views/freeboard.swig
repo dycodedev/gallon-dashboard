@@ -15,6 +15,7 @@
                 // *** Load more plugins here ***
         		"plugins/thirdparty/ibm.iotfoundation.plugin.js",
         		"plugins/thirdparty/paho.mqtt.plugin.js",
+                "plugins/thirdparty/freeboard_node.js",
                 {% if isAuth %}
                 "plugins/thirdparty/gallon.waterlevel.trigger.js",
                 {% endif %}
