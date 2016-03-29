@@ -11,6 +11,8 @@ router.get('/me', OAuthController.bearer, (req, res, next) => {
     res.ok(req.user, 'User data');
 });
 
+router.post('/devices', OAuthController.bearer, DeviceController.addApi);
+
 router.get('/triggers', OAuthController.bearer, TriggerController.list);
 router.get('/triggers/:id', OAuthController.bearer, TriggerController.getOne);
 router.post('/triggers', OAuthController.bearer, TriggerController.add);

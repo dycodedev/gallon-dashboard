@@ -34,6 +34,45 @@ module.exports = {
         });
     },
 
+    addApi(req, res, next) {
+        if (!Utils.hasProperty(req.body, ['device', 'attr', 'config'])) {
+            return next(new Error('Some required parameters are missing'));
+        }
+
+        if (!req.body.device.id) {
+            return next(new Error('Device ID must be provided'));
+        }
+
+        if (!Utils.hasProperty(req.body, ['account'])) {
+            req.body.account = {
+                userId: req.user.username,
+                userToken: req.query.access_token,
+            };
+        }
+
+        const query = {
+            'device.id': req.body.device.id,
+        };
+
+        Device.findOne(query, (err, device) => {
+            if (err) {
+                return next(new Error('Failed to look for device'));
+            }
+
+            if (device) {
+                return res.ok(null, 'Device is already exists');
+            }
+
+            return Device.insert(req.body, err => {
+                if (err) {
+                    return next(new Error('Failed to save device'));
+                }
+
+                return res.ok(req.body, 'Device is added');
+            });
+        });
+    },
+
     delete(req, res, next) {
         const id = req.params.id;
 
