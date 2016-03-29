@@ -91,8 +91,6 @@ module.exports = {
     },
 
     setAllThreshold(req, res, next) {
-        console.log(req.body);
-
         if (_.isEmpty(req.body.deviceid)) {
             const error = new Error('deviceid value must be provided');
             error.status = 400;
