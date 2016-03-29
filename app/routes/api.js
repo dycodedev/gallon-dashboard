@@ -12,6 +12,7 @@ router.get('/me', OAuthController.bearer, (req, res, next) => {
 });
 
 router.post('/devices', OAuthController.bearer, DeviceController.addApi);
+router.delete('/devices/:id', OAuthController.bearer, DeviceController.removeApi);
 
 router.get('/triggers', OAuthController.bearer, TriggerController.list);
 router.get('/triggers/:id', OAuthController.bearer, TriggerController.getOne);

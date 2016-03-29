@@ -82,4 +82,19 @@ module.exports = {
 
         Devices.findOneAndRemove({ _id: new ObjectID(id) }, err => res.redirect('/'));
     },
+
+    removeApi(req, res, next) {
+        const query = {
+            'account.userId': req.user.username,
+            'device.id': req.params.id,
+        };
+
+        Devices.findOneAndRemove(query, err => {
+            if (err) {
+                return next(new Error('Failed to remove device'));
+            }
+
+            return res.ok(null, 'Device is removed');
+        });
+    },
 };
