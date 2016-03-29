@@ -51,6 +51,7 @@ module.exports = {
         }
 
         const query = {
+            'account.userId': req.user.username,
             'device.id': req.body.device.id,
         };
 
