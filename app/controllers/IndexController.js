@@ -36,8 +36,6 @@ module.exports = {
                 transformed.device.background = 'img_gallon_percentage_' +
                     (transformed.level || transformed.attr.waterLevelPercent) + '.png';
 
-                console.log(transformed);
-
                 return transformed;
             });
 
