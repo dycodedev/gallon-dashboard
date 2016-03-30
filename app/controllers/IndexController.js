@@ -18,7 +18,30 @@ module.exports = {
                 console.error(err);
             }
 
-            model.devices = _.map(devices, dev => dev.toObject());
+            model.devices = _.map(devices, dev => {
+                const transformed = dev.toObject();
+
+                if (transformed.attr.waterLevelPercent) {
+                    // less likely to occur
+                    if (transformed.attr.waterLevelPercent % 10 !== 0) {
+                        const curWaterLevel = transformed.attr.waterLevelPercent;
+                        transformed.level = Math.round(curWaterLevel / 10) * 10;
+                    }
+                }
+
+                transformed.attr.stateString = parseInt(transformed.attr.state) === 0
+                    ? 'OFF'
+                    : 'ON';
+
+                transformed.device.background = 'img_gallon_percentage_' +
+                    (transformed.level || transformed.attr.waterLevelPercent) + '.png';
+
+                console.log(transformed);
+
+                return transformed;
+            });
+
+            model.devices = _.chunk(model.devices, 4);
 
             res.render('index', model);
         });

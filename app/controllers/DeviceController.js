@@ -26,8 +26,6 @@ module.exports = {
                         ? new Date(transformed.device.timeToReplace * 1000).toISOString()
                         : new Date().toISOString();
                 }
-
-                return transformed;
             });
 
             return res.ok(devices, 'List devices');

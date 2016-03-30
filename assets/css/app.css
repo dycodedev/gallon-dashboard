@@ -1,54 +1,55 @@
-/*! app.css */
+body { margin: 0; padding: 0; }
 
-/*
- * Nurul Arif Setiawan <n.arif.setiawan@gmail.com>
-*/
+#dev-grid-container {
+     box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 
-h1, h2, h3, h4, h5, h6 { 
-  font-family: 'Lato', sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
-p, a, span, input {
-  font-family: 'Open Sans', sans-serif;
+.glx-device-grid {
+    display: block;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    height: 100%;
+    padding: 15px;
+
+    background-color: #2a2a2a;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
-body {
-  padding-top: 50px;
+.glx-device-grid:hover {
+    cursor: pointer;
 }
 
-.starter-template {
-  padding: 20px 15px;
-  text-align: center;
+.glx-device-grid .device-name {
+    font-size: 18px;
+    color: white;
 }
 
-.starter-body {
-  padding: 20px 0px;
+.glx-device-grid .device-state {
+    text-align: right;
+    width: 100%;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
 }
 
-.starter-tab {
-  padding: 20px 0px;
+.glx-device-grid .device-metric {
+    text-align: center;
+    margin-top: 30%;
 }
 
-.starter-content {
-  padding: 10px 20px;
-}
+/* Overrides */
+.gridster {
+    padding: 0;
+    margin: 0;
 
-.starter-content-a {
-  padding: 10px 15px;
-}
-
-.stat {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.stat .col-lg-4 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.top-buffer { 
-  margin-top:20px; 
-  margin-right: 20px;
-  margin-left: 20px;
+    margin-top: 20px;
 }

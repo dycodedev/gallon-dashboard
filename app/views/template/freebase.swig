@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="viewport" content = "width = device-width, initial-scale = 1, user-scalable = no" />
     <link href="css/freeboard.min.css" rel="stylesheet" />
+    {% block style %}{% endblock %}
     <style>
     .board-toolbar > li > a:hover {
         color: #B88F51;
@@ -18,13 +19,6 @@
 <body>
     <header id="main-header" style="display: block; top: 0px">
         <ul class="board-toolbar horizontal" style="float: right; margin: 10px;">
-            {% if role.indexOf('admin') >= 0 %}
-            <li>
-                <a href="/users">
-                    <label> User Management </label>
-                </a>
-            </li>
-            {% endif %}
             <li>
                 <a href="/signout">
                     <label> Sign Out </label>
@@ -34,6 +28,8 @@
     </header>
     {% block content %}{% endblock %}
 
+    {% block early-script %}{% endblock %}
+    {% block main-script %}
     <script src="/jquery/dist/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -48,5 +44,7 @@
             });
         });
     </script>
+    {% endblock %}
+    {% block late-script %}{% endblock %}
 </body>
 </html>
