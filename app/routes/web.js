@@ -13,6 +13,7 @@ router.get('/dashboard', auth.isAuthenticated(), (req, res) => res.redirect('/')
 router.post('/dashboard', auth.isAuthenticated(), IndexController.saveBoard);
 
 router.get('/devices/:id/delete', auth.isAuthenticated(), DeviceController.delete);
+router.get('/devices/:id/state', auth.isAuthenticated(), DeviceController.getDeviceState);
 
 router.get('/signin', AuthController.signIn);
 router.post('/signin', AuthController.postSignIn);

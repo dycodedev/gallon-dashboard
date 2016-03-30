@@ -17,7 +17,7 @@
         		"plugins/thirdparty/paho.mqtt.plugin.js",
                 "plugins/thirdparty/freeboard_node.js",
                 {% if isAuth %}
-                "plugins/thirdparty/gallon.waterlevel.trigger.js",
+                "plugins/thirdparty/gallon.state.trigger.js",
                 {% endif %}
                 function(){
                     $(function()

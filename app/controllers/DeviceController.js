@@ -34,6 +34,29 @@ module.exports = {
         });
     },
 
+    getDeviceState(req, res, next) {
+        const id = req.params.id;
+
+        return Devices.findOne({ 'device.id': id }, (err, device) => {
+            if (err) {
+                return next(new Error('Failed to get device'));
+            }
+
+            if (!device) {
+                console.log('DNF Triggered');
+                return res.ok(null, 'Device is not found');
+            }
+
+            const newDevice = device.toObject();
+
+            if (newDevice.attr) {
+                return res.ok({ state: parseInt(newDevice.attr.state) }, 'Device state');
+            } else {
+                return res.ok(null, 'Device state is not found');
+            }
+        });
+    },
+
     addApi(req, res, next) {
         if (!Utils.hasProperty(req.body, ['device', 'attr', 'config'])) {
             return next(new Error('Some required parameters are missing'));
