@@ -98,6 +98,8 @@ module.exports = {
                 return res.ok(device.toObject(), 'Device is already exists');
             }
 
+            // TODO: Add azure registry.
+
             return Devices.create(req.body, err => {
                 if (err) {
                     return next(new Error('Failed to save device'));
@@ -139,31 +141,45 @@ module.exports = {
         const registry = azureIot.Registry.fromConnectionString(connectionString);
         const deviceId = req.params.id;
 
-        registry.get(deviceId, (err, device, response) => {
-            if (err) {
-                // return next(new Error('Failed to get device data'));
-                return res.status(500).end('Failed to get device data');
-            }
-
-            if (!device) {
-                // return next(new Error('Device is not found'));
-                return res.status(404).end('Device is not found');
-            }
-
-            const primaryKey = device.authentication.SymmetricKey.primaryKey;
+        function make(primaryKey, connectionString) {
             const expiry = Math.round(Date.now() / 1000) + (24 * 3600);
             const parsedConnStr = azureIot.ConnectionString.parse(connectionString);
             const uri = parsedConnStr.HostName + '/devices/' + deviceId;
             const sasObject = sas.create(uri, null, primaryKey, expiry);
 
-            const toBeSent = {
+            return {
                 name: uri.split('.')[0],
                 url: parsedConnStr.HostName,
                 sasToken: sasObject.toString(),
                 sasExpiry: expiry,
             };
+        }
 
-            return res.status(200).end(JSON.stringify(toBeSent));
+        registry.get(deviceId, (err, device, response) => {
+            if (err || !device) {
+                if (err.responseBody.indexOf('DeviceNotFound') >= 0) {
+                    const created = {
+                        deviceId: deviceId,
+                    };
+
+                    return registry.create(created, (err, newlyCreated) => {
+                        if (err) {
+                            return res.status(500).end('Failed to create device');
+                        }
+
+                        const primaryKey = newlyCreated.authentication.SymmetricKey.primaryKey;
+                        const newDeviceSas = make(primaryKey, connectionString);
+
+                        return res.status(200).end(JSON.stringify(newDeviceSas));
+                    });
+                }
+
+                return res.status(500).end('Failed to get device data');
+            }
+
+            const generated = make(device.authentication.SymmetricKey.primaryKey, connectionString);
+
+            return res.status(200).end(JSON.stringify(generated));
         });
     },
 };
