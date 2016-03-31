@@ -156,9 +156,14 @@ module.exports = {
             const uri = parsedConnStr.HostName + '/devices/' + deviceId;
             const sasObject = sas.create(uri, null, primaryKey, expiry);
 
-            // console.log(sasObject, '\n', sasObject.toString());
-            // return res.status(200).end(sasObject.toString());
-            return res.status(200).end(urlEncodedSas(sasObject));
+            const toBeSent = {
+                name: uri.split('.')[0],
+                url: uri,
+                sasToken: sasObject.toString(),
+                sasExpiry: expiry,
+            };
+
+            return res.status(200).end(JSON.stringify(toBeSent));
         });
     },
 };
