@@ -83,6 +83,7 @@ $(function() {
             var url = '/img/img_gallon_percentage_' + recvd.waterLevelPercent + '.png';
 
             $device.css('background-image', 'url(' + url + ')');
+            $device.find('.device-metric').find('span').html(recvd.waterLevelPercent + '%');
         });
     });
 })
