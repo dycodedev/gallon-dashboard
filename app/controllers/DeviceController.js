@@ -84,10 +84,10 @@ module.exports = {
             }
 
             if (device) {
-                return res.ok(null, 'Device is already exists');
+                return res.ok(device.toObject(), 'Device is already exists');
             }
 
-            return Devices.insert(req.body, err => {
+            return Devices.create(req.body, err => {
                 if (err) {
                     return next(new Error('Failed to save device'));
                 }

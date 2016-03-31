@@ -4,3 +4,4 @@ npm-debug.log
 .tmp
 .idea
 memstats
+config/winter.js
