@@ -23,6 +23,13 @@
                 type: 'text',
                 description: 'Websocket server URL',
             },
+            {
+                name: 'widgetTitle',
+                display_name: 'Trigger Name',
+                type: 'text',
+                description: 'Device state tirgger alias',
+                default_value: 'Dispenser Switch',
+            },
         ],
 
         newInstance: function newIns(settings, callback) {
@@ -33,6 +40,7 @@
     var GallonStateTrigger = function (settings) {
         var currentSettings = settings;
         var element =
+            '<div class="glx-widget-title" style="margin-bottom: 10px; clear: both">' + currentSettings.widgetTitle + '</div>' +
             '<div class="onoffswitch">' +
                 '<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox glx-toggle-state" id="include_legend-onoff">' +
                 '<label class="onoffswitch-label" for="include_legend-onoff">' +
@@ -127,8 +135,12 @@
                 }
 
                 if (recvd.state === 0 || recvd.state === 1) {
-                    currentState = recvd.state;
-                    $('.glx-toggle-state').trigger('click', [true]);
+                    if (currentState === recvd.state) {
+                        return false;
+                    } else {
+                        currentState = recvd.state;
+                        $('.glx-toggle-state').trigger('click', [true]);
+                    }
                 }
             });
         }

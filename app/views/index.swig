@@ -47,6 +47,46 @@
 
 {% block late-script %}
 <script src="/gridster/dist/jquery.gridster.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+$(function() {
+    var socket = io.connect('{{ wsUrl }}');
+
+    function parseIncData(data) {
+        var recvd =  data;
+        if (typeof data === 'string') {
+            try {
+                recvd = JSON.parse(data);
+            } catch (ex) {
+                console.error('Invalid JSON');
+            }
+        }
+
+        return recvd;
+    }
+
+    socket.on('connect', function() {
+        socket.on('getState', function(data) {
+            var recvd = parseIncData(data);
+            var $device = $('#device-' + recvd.deviceId);
+
+            if (parseInt(recvd.state) === 0) {
+                $device.find('.device-state').find('span').html('OFF');
+            } else {
+                $device.find('.device-state').find('span').html('ON');
+            }
+        });
+
+        socket.on('metric', function (data) {
+            var recvd = parseIncData(data);
+            var $device = $('#device-' + recvd.deviceId);
+            var url = '/img/img_gallon_percentage_' + recvd.waterLevelPercent + '.png';
+
+            $device.css('background-image', 'url(' + url + ')');
+        });
+    });
+})
+</script>
 <script>
 $(function() {
     var gr = $('.gridster ul').gridster({

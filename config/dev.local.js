@@ -4,6 +4,7 @@ var path = require('path');
 module.exports = {
 
     port: process.env.PORT || 9000,
+    wsUrl: 'ws://localhost:9090/',
 
     // database
     mongodb: {
@@ -49,5 +50,9 @@ module.exports = {
 
     cookie: {
         secret: 'BbQqBK8HEj9OrP67hkmyE9gKhPevie3q1gkIaOoUpmjvxkg6iWTkZ9HlLh6Vg7If',
+    },
+
+    iot: {
+        connectionString: process.env.IOT_CONNECTIONSTR || '',
     },
 };

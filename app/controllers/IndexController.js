@@ -40,6 +40,7 @@ module.exports = {
             });
 
             model.devices = _.chunk(model.devices, 4);
+            model.wsUrl = config.wsUrl;
 
             res.render('index', model);
         });
