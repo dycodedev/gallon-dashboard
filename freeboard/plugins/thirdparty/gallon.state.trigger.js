@@ -48,21 +48,29 @@
 
         connect();
 
+        $('body').on('click', '.glx-toggle-state', function onClick(event, faked) {
+            var newState = (currentState === 0) ? 1 : 0;
+            var faked = event.pageX === 0 && event.pageY === 0;
+
+            if (event.hasOwnProperty('originalEvent')) {
+                console.log('User triggered');
+            } else {
+                console.log('Programmatically');
+            }
+
+            if (!faked) {
+                socket.emit('setState', JSON.stringify({
+                    deviceId: currentSettings.deviceId,
+                    state: newState,
+                }));
+
+                currentState = newState;
+            }
+        });
+
         this.render = function render(containerElement) {
             var $mainElement = $($.parseHTML(element));
             $(containerElement).append($mainElement);
-
-            $('body').on('click', '.glx-toggle-state', function onClick(event, faked) {
-                var newState = (currentState === 0) ? 1 : 0;
-                if (!faked) {
-                    socket.emit('setState', JSON.stringify({
-                        deviceId: currentSettings.deviceId,
-                        state: newState,
-                    }));
-
-                    currentState = newState;
-                }
-            });
 
             getDeviceState();
         };
