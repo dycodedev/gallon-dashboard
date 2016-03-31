@@ -87,7 +87,7 @@ module.exports = {
                 return res.ok(null, 'Device is already exists');
             }
 
-            return Device.insert(req.body, err => {
+            return Devices.insert(req.body, err => {
                 if (err) {
                     return next(new Error('Failed to save device'));
                 }
