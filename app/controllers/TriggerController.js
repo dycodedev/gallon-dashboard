@@ -158,4 +158,22 @@ module.exports = {
             return res.ok(null, 'Trigger data');
         });
     },
+
+    generateTwiml(req, res, next) {
+        let xmlString = '<?xml version="1.0" encoding="UTF-8"?><Response>';
+
+        Triggers.find({ device: req.params.device }, (err, contacts) => {
+            if (err) {
+                return res.status(500).end('Failed to retrieve device data');
+            }
+
+            contacts.forEach(contact => {
+                xmlString += '<Dial timeout="5">' + contact.to + '</Dial>';
+            });
+
+            xmlString += '</Response>';
+
+            return res.status(200).end(xmlString);
+        });
+    },
 };

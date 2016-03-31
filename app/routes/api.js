@@ -21,5 +21,6 @@ router.get('/triggers/:id', OAuthController.bearer, TriggerController.getOne);
 router.post('/triggers', OAuthController.bearer, TriggerController.add);
 router.delete('/triggers/:id', OAuthController.bearer, TriggerController.delete);
 router.put('/triggers', OAuthController.bearer, TriggerController.setAllThreshold);
+router.get('/triggers/twiml/:device', TriggerController.generateTwiml);
 
 module.exports = router;
