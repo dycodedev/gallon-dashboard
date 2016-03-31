@@ -110,12 +110,12 @@ module.exports = {
 
     delete(req, res, next) {
         const id = req.params.id;
+        const query = {
+            'device.id': id,
+            'account.userId': req.user.username,
+        };
 
-        if (!ObjectID.isValid(id)) {
-            return res.redirect('/');
-        }
-
-        Devices.findOneAndRemove({ _id: new ObjectID(id) }, err => res.redirect('/'));
+        Devices.findOneAndRemove(query, err => res.redirect('/'));
     },
 
     removeApi(req, res, next) {
