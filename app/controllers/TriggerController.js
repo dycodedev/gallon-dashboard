@@ -4,6 +4,7 @@ module.exports = {
     list(req, res, next) {
         const query = {
             user: req.user.username,
+            device: req.params.device,
         };
 
         return Triggers.find(query, (err, triggers) => {

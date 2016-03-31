@@ -1,5 +1,16 @@
 'use strict';
 
+const azureIot = require('azure-iothub');
+
+function urlEncodedSas(sas) {
+    let token = 'SharedAccessSignature ';
+    token += 'sr=' + encodeURIComponent(sas.sr.toLowerCase()).toLowerCase();
+    token += '&sig=' + encodeURIComponent(sas.sig);
+    token += '&se=' + sas.se;
+
+    return token;
+}
+
 module.exports = {
     list(req, res, next) {
         const user = req.user;
@@ -123,6 +134,31 @@ module.exports = {
     },
 
     getSasToken(req, res, next) {
+        const connectionString = config.iot.connectionString;
+        const sas = azureIot.SharedAccessSignature;
+        const registry = azureIot.Registry.fromConnectionString(connectionString);
+        const deviceId = req.params.id;
 
+        registry.get(deviceId, (err, device, response) => {
+            if (err) {
+                // return next(new Error('Failed to get device data'));
+                return res.status(500).end('Failed to get device data');
+            }
+
+            if (!device) {
+                // return next(new Error('Device is not found'));
+                return res.status(404).end('Device is not found');
+            }
+
+            const primaryKey = device.authentication.SymmetricKey.primaryKey;
+            const expiry = Math.round(Date.now() / 1000) + (24 * 3600);
+            const parsedConnStr = azureIot.ConnectionString.parse(connectionString);
+            const uri = parsedConnStr.HostName + '/devices/' + deviceId;
+            const sasObject = sas.create(uri, null, primaryKey, expiry);
+
+            // console.log(sasObject, '\n', sasObject.toString());
+            // return res.status(200).end(sasObject.toString());
+            return res.status(200).end(urlEncodedSas(sasObject));
+        });
     },
 };
