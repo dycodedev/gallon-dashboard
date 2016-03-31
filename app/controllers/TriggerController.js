@@ -127,7 +127,12 @@ module.exports = {
                 return next(new Error('Failed to update threshold'));
             }
 
-            return Devices.findOneAndUpdate(query, updateDevice, err => {
+            const deviceQuery = {
+                'device.id': query.device,
+                'account.userId': query.user,
+            };
+
+            return Devices.findOneAndUpdate(deviceQuery, updateDevice, err => {
                 if (err) {
                     return next(new Error('Failed to set threshold on device'));
                 }
