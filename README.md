@@ -28,7 +28,7 @@
 
 Using nodemon / node
 ```sh
-APPENV=dev.local nodemon app.js
+APPENV=dev.local IOT_CONNECTIONSTR=AZURE_IOTHUB_OWNER_CONNECTIONSTRING nodemon app.js
 ```
 
 Using pm2
@@ -36,6 +36,11 @@ Using pm2
 APPENV=production pm2 start app.js --name gallon-dashboard
 ```
 
-## Note on APPENV variable
+## Environment variables.
 
-`APPENV` environment variable is used to identify configuration file which is being used by the app. The possible values are `dev.local`, `local`, or `production`.
+You can omit these variables by replacing their references inside the configuration file.
+
+* `APPENV` environment variable is used to identify configuration file which is being used by the app. The possible values are `dev.local`, `local`, or `production`.
+
+* `IOT_CONNECTIONSTR` is an IoT hub owner connection string. The value can be obtained from Azure Portal.
+
