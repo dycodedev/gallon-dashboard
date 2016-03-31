@@ -116,13 +116,24 @@ module.exports = {
                 threshold: parseInt(req.body.threshold),
             },
         };
+        const updateDevice = {
+            $set: {
+                'attr.alertThreshold': req.body.threshold,
+            },
+        };
 
         return Triggers.update(query, update, opt, err => {
             if (err) {
                 return next(new Error('Failed to update threshold'));
             }
 
-            return res.ok(null, 'Threshold is updated');
+            return Devices.findOneAndUpdate(query, updateDevice, err => {
+                if (err) {
+                    return next(new Error('Failed to set threshold on device'));
+                }
+
+                return res.ok(null, 'Threshold is updated');
+            });
         });
     },
 
