@@ -158,7 +158,7 @@ module.exports = {
 
             const toBeSent = {
                 name: uri.split('.')[0],
-                url: uri,
+                url: parsedConnStr.HostName,
                 sasToken: sasObject.toString(),
                 sasExpiry: expiry,
             };
