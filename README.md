@@ -2,22 +2,9 @@
 # Gallon Dashboard & REST API
 
 * OAuth 2.0
-* API Documentation
-* Bootstrapping data
-
-## Checklist
-
-* [ ] OAuth 2.0 server
-    * [ ] Authorization Code Grant
-    * [ ] Implicit Grant
-    * [✓] Resource Owner Password Credentials Grant
-* [ ] User signup flow (signup, signup with provider, welcome email)
-* [ ] Resource API
-    * [✓] User
-    * [✓] Device
-    * [✓] Trigger's Actions
-* [ ] Tests
-* [ ] API Documentation
+* Freeboard
+* Express 4
+* Mongoose
 
 ## REST Developer Documentation
 
