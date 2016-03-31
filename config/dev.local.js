@@ -55,4 +55,8 @@ module.exports = {
     iot: {
         connectionString: process.env.IOT_CONNECTIONSTR || '',
     },
+
+    dashboard: {
+        websocketUrl: 'localhost:9090',
+    },
 };

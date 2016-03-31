@@ -48,6 +48,7 @@ module.exports = {
 
     dashboard(req, res, next) {
         const model = res.baseModel;
+        const websocketUrl = config.dashboard.websocketUrl;
         model.isAuth = req.isAuthenticated();
         model.deviceid = req.params.id;
 
@@ -64,10 +65,16 @@ module.exports = {
 
             model.device = device;
 
-            const path = config.appDir + '/assets/' + req.params.id + '_dashboard.json';
+            const path = config.appDir + '/assets/template_dashboard.json';
             fs.readFile(path, (err, content) => {
+                let boardString = content.toString();
+                boardString = boardString.replace(/\<\% DEVICEID \%\>/g, model.deviceid);
+                boardString = boardString.replace(/\<\% WEBSOCKETURL \%\>/g, websocketUrl);
+
+                console.log(boardString);
+
                 try {
-                    model.board = JSON.parse(content);
+                    model.board = JSON.parse(boardString);
                 } catch (ex) {
                     model.board = {};
                 }
@@ -79,13 +86,12 @@ module.exports = {
 
     saveBoard(req, res, next) {
         const definition = req.body.definition;
-        const deviceid = req.body.deviceid;
 
         if (_.isEmpty(definition)) {
             return next(new Error('Failed to save board. Reason: no definition'));
         }
 
-        const filename = config.appDir + '/assets/' + deviceid + '_dashboard.json';
+        const filename = config.appDir + '/assets/template_dashboard.json';
 
         fs.writeFile(filename, definition, err => {
             if (err) {

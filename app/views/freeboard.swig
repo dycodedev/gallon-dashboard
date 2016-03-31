@@ -46,7 +46,7 @@
                                 url: '/dashboard',
                                 type: 'POST',
                                 dataType: 'json',
-                                data: { definition: JSON.stringify(serialized), deviceid: '{{ deviceid }}' },
+                                data: { definition: JSON.stringify(serialized) },
                                 success: function (response) {
                                     window.location.reload();
                                 },
