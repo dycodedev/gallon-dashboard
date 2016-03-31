@@ -116,15 +116,17 @@
             socket.on('getState', function (data) {
                 var recvd = data;
 
+                console.log('Socket received: ', recvd);
+
                 if (typeof data === 'string') {
                     try {
-                        recvd = JSON.stringify(data);
+                        recvd = JSON.parse(data);
                     } catch (ex) {
                         console.error('Not a valid JSON');
                     }
                 }
 
-                if (recvd.state) {
+                if (recvd.state === 0 || recvd.state === 1) {
                     currentState = recvd.state;
                     $('.glx-toggle-state').trigger('click', [true]);
                 }
