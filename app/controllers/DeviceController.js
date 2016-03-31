@@ -78,7 +78,7 @@ module.exports = {
             'device.id': req.body.device.id,
         };
 
-        Device.findOne(query, (err, device) => {
+        Devices.findOne(query, (err, device) => {
             if (err) {
                 return next(new Error('Failed to look for device'));
             }
@@ -120,5 +120,9 @@ module.exports = {
 
             return res.ok(null, 'Device is removed');
         });
+    },
+
+    getSasToken(req, res, next) {
+
     },
 };
