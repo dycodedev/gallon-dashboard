@@ -1,15 +1,7 @@
 'use strict';
 
 const azureIot = require('azure-iothub');
-
-function urlEncodedSas(sas) {
-    let token = 'SharedAccessSignature ';
-    token += 'sr=' + encodeURIComponent(sas.sr.toLowerCase()).toLowerCase();
-    token += '&sig=' + encodeURIComponent(sas.sig);
-    token += '&se=' + sas.se;
-
-    return token;
-}
+const async = require('async');
 
 module.exports = {
     list(req, res, next) {
@@ -84,29 +76,90 @@ module.exports = {
             };
         }
 
+        const body = req.body;
+        const connectionString = config.iot.connectionString;
+        const registry = azureIot.Registry.fromConnectionString(connectionString);
         const query = {
             'account.userId': req.user.username,
             'device.id': req.body.device.id,
         };
 
-        Devices.findOne(query, (err, device) => {
-            if (err) {
-                return next(new Error('Failed to look for device'));
-            }
+        async.waterfall([
+            function checkAzureDevice(done) {
+                return registry.get(body.device.id, (err, device) => {
+                    debugger;
+                    if (err || !device) {
+                        debugger;
+                        if (err.responseBody.indexOf('DeviceNotFound') >= 0) {
+                            return done(null, true);
+                        }
 
-            if (device) {
-                return res.ok(device.toObject(), 'Device is already exists');
-            }
+                        // real error
+                        console.error(err.responseBody);
 
-            // TODO: Add azure registry.
+                        return done(new Error('Failed to get azure device'));
+                    }
 
-            return Devices.create(req.body, err => {
-                if (err) {
-                    return next(new Error('Failed to save device'));
+                    if (device) {
+                        return done(null, false);
+                    }
+                });
+            },
+
+            function createAzureDevice(proceedCreate, done) {
+                debugger;
+                if (!proceedCreate) {
+                    return done(null);
                 }
 
-                return res.ok(req.body, 'Device is added');
-            });
+                return registry.create({ deviceId: body.device.id }, (err, device) => {
+                    debugger;
+                    if (err) {
+                        console.error(err.responseBody);
+
+                        return done(new Error('Failed to create azure device'));
+                    }
+
+                    return done(null);
+                });
+            },
+
+            function checkActualDevice(done) {
+                Devices.findOne(query, (err, device) => {
+                    debugger;
+                    if (err) {
+                        return done(new Error('Failed to get device data'));
+                    }
+
+                    if (device) {
+                        return done(null, false, device.toObject());
+                    }
+
+                    return done(null, true, false);
+                });
+            },
+
+            function createDevice(proceedCreate, device, done) {
+                if (!proceedCreate) {
+                    return done(null, device);
+                }
+
+                return Devices.create(body, err => {
+                    if (err) {
+                        return done(new Error('Failed to save device'));
+                    }
+
+                    return done(null, body);
+                });
+            },
+        ],
+
+        (err, finalResult) => {
+            if (err) {
+                return next(err);
+            }
+
+            return res.ok(finalResult, 'Device is added');
         });
     },
 

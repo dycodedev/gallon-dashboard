@@ -66,12 +66,11 @@ module.exports = {
             model.device = device;
 
             const path = config.appDir + '/assets/template_dashboard.json';
+
             fs.readFile(path, (err, content) => {
                 let boardString = content.toString();
                 boardString = boardString.replace(/\<\% DEVICEID \%\>/g, model.deviceid);
                 boardString = boardString.replace(/\<\% WEBSOCKETURL \%\>/g, websocketUrl);
-
-                console.log(boardString);
 
                 try {
                     model.board = JSON.parse(boardString);
