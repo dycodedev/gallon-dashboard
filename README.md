@@ -31,3 +31,16 @@ You can omit these variables by replacing their references inside the configurat
 
 * `IOT_CONNECTIONSTR` is an IoT hub owner connection string. The value can be obtained from Azure Portal.
 
+## Bootstrapping Data
+
+Before creating user or client app, go to `tools/bootstrap` directory.
+
+* Creating User
+```sh
+node add-user.js USERNAME FULLNAME EMAIL PASSWORD ROLE
+```
+
+* Creating Client App
+```
+node add-oauthclient.js APPNAME USERNAME
+```

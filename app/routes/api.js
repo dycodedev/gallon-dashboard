@@ -14,7 +14,7 @@ router.get('/me', OAuthController.bearer, (req, res, next) => {
 router.post('/devices', OAuthController.bearer, DeviceController.addApi);
 router.delete('/devices/:id', OAuthController.bearer, DeviceController.removeApi);
 
-router.get('/iothub/:id', DeviceController.getSasToken);
+router.get('/iothub/:id', OAuthController.bearer, DeviceController.getSasToken);
 
 router.get('/triggers/device/:device', OAuthController.bearer, TriggerController.list);
 router.get('/triggers/:id', OAuthController.bearer, TriggerController.getOne);
