@@ -195,7 +195,7 @@ module.exports = {
         const deviceId = req.params.id;
 
         function make(primaryKey, connectionString) {
-            const expiry = Math.round(Date.now() / 1000) + (24 * 3600);
+            const expiry = Math.round(Date.now() / 1000) + (24 * 30 * 3600);
             const parsedConnStr = azureIot.ConnectionString.parse(connectionString);
             const uri = parsedConnStr.HostName + '/devices/' + deviceId;
             const sasObject = sas.create(uri, null, primaryKey, expiry);
